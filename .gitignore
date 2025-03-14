@@ -1,0 +1,11 @@
+# Игнорируем секретные данные
+AppSettings/secrets.json
+AppSettings/app_settings.json
+
+# Игнорируем файлы сборки
+bin/
+obj/
+
+# Rider и VS Code
+.idea/
+.vscode/
