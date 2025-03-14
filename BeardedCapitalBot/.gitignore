@@ -5,6 +5,7 @@ AppSettings/app_settings.json
 # Игнорируем файлы сборки
 bin/
 obj/
+out/
 
 # Rider и VS Code
 .idea/
