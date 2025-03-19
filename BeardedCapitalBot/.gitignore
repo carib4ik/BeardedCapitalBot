@@ -1,6 +1,9 @@
 # Игнорируем секретные данные
 AppSettings/secrets.json
 AppSettings/app_settings.json
+AppSettings/AppSettings.cs
+AppSettings/Secrets.cs
+Program.cs
 
 # Игнорируем файлы сборки
 bin/

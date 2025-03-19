@@ -10,14 +10,14 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        // var secretsJson = await File.ReadAllTextAsync("AppSettings/secrets.json");
-        // var secrets = JsonConvert.DeserializeObject<Secrets>(secretsJson);
-        //
-        // var settingsJson = await File.ReadAllTextAsync("AppSettings/app_settings.json");
-        // var settings = JsonConvert.DeserializeObject<BeardedCapitalBot.AppSettings.AppSettings>(settingsJson);
+        var secretsJson = await File.ReadAllTextAsync("AppSettings/secrets.json");
+        var secrets = JsonConvert.DeserializeObject<Secrets>(secretsJson);
+        
+        var settingsJson = await File.ReadAllTextAsync("AppSettings/app_settings.json");
+        var settings = JsonConvert.DeserializeObject<BeardedCapitalBot.AppSettings.AppSettings>(settingsJson);
 
-        var secrets = new Secrets();
-        var settings = new AppSettings.AppSettings();
+        // var secrets = new Secrets();
+        // var settings = new AppSettings.AppSettings();
         
         var botClient = new TelegramBotClient(secrets.TelegramKey);
         
