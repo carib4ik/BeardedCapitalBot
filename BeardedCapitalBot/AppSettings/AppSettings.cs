@@ -12,10 +12,15 @@ public class AppSettings
     
     public AppSettings()
     {
+        Console.WriteLine($"MANAGER_CHANNEL_ID: {Environment.GetEnvironmentVariable("MANAGER_CHANNEL_ID")}");
+        Console.WriteLine($"SUBSCRIBE_CHANNEL_ID: {Environment.GetEnvironmentVariable("SUBSCRIBE_CHANNEL_ID")}");
+        Console.WriteLine($"ERRORS_LOG_CHANNEL_ID: {Environment.GetEnvironmentVariable("ERRORS_LOG_CHANNEL_ID")}");
+
         ManagerChannelId = ParseChatId(Environment.GetEnvironmentVariable("MANAGER_CHANNEL_ID"));
         SubscribeChannelId = ParseChatId(Environment.GetEnvironmentVariable("SUBSCRIBE_CHANNEL_ID"));
         ErrorsLogChannelId = ParseChatId(Environment.GetEnvironmentVariable("ERRORS_LOG_CHANNEL_ID"));
         ErrorsFilePath = Environment.GetEnvironmentVariable("ERRORS_FILE_PATH") ?? "ErrorsLog.txt";
+        
     }
 
     private ChatId ParseChatId(string? value)
