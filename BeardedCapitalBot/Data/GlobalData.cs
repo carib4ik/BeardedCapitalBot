@@ -10,4 +10,5 @@ public static class GlobalData
     public const string PREMIUM_CHANEL = "Премиум канал";
     public const string SURFING = "Серфинг кэмп";
     public const string INFO = "Полезная информация";
+    public const string BACK = "Назад";
 }
