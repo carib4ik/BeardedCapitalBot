@@ -13,6 +13,7 @@ public class DoneState : ChatStateBase
     public DoneState(ChatStateMachine stateMachine, ITelegramBotClient botClient) : base(stateMachine)
     {
         _botClient = botClient;
+        Console.WriteLine("DoneState");
     }
 
     public override Task HandleMessage(Message message)
