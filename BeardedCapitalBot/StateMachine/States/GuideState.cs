@@ -1,9 +1,6 @@
-using BeardedCapitalBot.Data;
-using BeardedCapitalBot.Extensions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
+using File = System.IO.File;
 
 namespace BeardedCapitalBot.StateMachine.States;
 
@@ -24,16 +21,35 @@ public class GuideState : ChatStateBase
 
     public override async Task OnEnter(long chatId)
     {
-        var guide = $"тут текст гайда";
-        
-        var backButton = InlineKeyboardButton.WithCallbackData("Назад", GlobalData.BACK);
-        // var infoButton = InlineKeyboardButton.WithCallbackData("Информация", GlobalData.INFO);
-        // var surfingButton = InlineKeyboardButton.WithCallbackData("Серф Кэмп", GlobalData.SURFING);
-        // var premiumButton = InlineKeyboardButton.WithCallbackData("Премиум канал", GlobalData.PREMIUM_CHANEL);
-        
-        var keyboard = new InlineKeyboardMarkup( new[] { backButton });
-        
-        await _botClient.SafeSendTextMessageAsync(chatId, guide.EscapeMarkdownV2(), replyMarkup: keyboard, parseMode: ParseMode.MarkdownV2);
+        // await _botClient.SendDocumentAsync(chatId, document: new InputFileId("BQACAgIAAxkBAANxZ9qz4WuSakrNw38rbAXpVzPMsb4AAspnAAK2L9FK-bzsZjeJeho2BA"), caption:"Держи гайд");
+        await SendStoredFileAsync(chatId);
         await _stateMachine.TransitTo<IdleState>(chatId);
     }
+    
+    private string? LoadFileId()
+    {
+        if (!File.Exists("file_id.json"))
+        {
+            return null; // Файл не найден
+        }
+
+        var json = File.ReadAllText("file_id.json");
+        var fileData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+
+        return fileData != null && fileData.ContainsKey("FileId") ? fileData["FileId"] : null;
+    }
+
+    public async Task SendStoredFileAsync(ChatId chatId)
+    {
+        var fileId = LoadFileId();
+
+        if (string.IsNullOrEmpty(fileId))
+        {
+            await _botClient.SendTextMessageAsync(chatId, "⚠ Файл не найден, загрузите новый.");
+            return;
+        }
+
+        await _botClient.SendDocumentAsync(chatId, new InputFileId(fileId), caption: "📄 Держи гайд!");
+    }
+
 }

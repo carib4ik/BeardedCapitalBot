@@ -7,6 +7,7 @@ using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using File = System.IO.File;
 
 namespace BeardedCapitalBot;
 
@@ -61,7 +62,7 @@ public class TelegramBotController
         var message = update.Message;
         var callbackQuery = update.CallbackQuery;
 
-        if (message != null && message.Type != MessageType.Text)
+        if (message != null && message.Type != MessageType.Text && message.Type != MessageType.Document)
         {
             return;
         }
@@ -69,6 +70,7 @@ public class TelegramBotController
         var userId = message != null ? message.From.Id : callbackQuery.From.Id;
         var messageId = message != null ? message.MessageId : callbackQuery.Message.MessageId;
         var messageText = message != null ? message.Text : callbackQuery?.Data;
+        var chatId = message?.Chat.Id;
         
         string response;
         
@@ -96,6 +98,12 @@ public class TelegramBotController
         {
             response = "Безлимитное использование бота доступно подписчикам канала";
             await SendSubscriptionMessage(userId, response);
+        }
+        
+        // Проверяем, загрузил ли администратор документ
+        if (update.Message?.Document != null)
+        {
+            await TryToSaveFile(chatId, message);
         }
     }
 
@@ -159,5 +167,22 @@ public class TelegramBotController
         {
             await ErrorNotificationService.Instance.SendErrorNotification(exception);
         }
+    }
+    
+    private async Task TryToSaveFile(ChatId chatId, Message message)
+    {
+        if (message.From.Id != GlobalData.ADMIN_ID) // Если не админ, запрещаем загрузку
+        {
+            await _botClient.SendTextMessageAsync(chatId, "❌ У вас нет прав загружать файлы.");
+            return;
+        }
+
+        // Сохраняем FileId
+        var fileId = message.Document.FileId;
+        var json = $"{{ \"FileId\": \"{fileId}\" }}";
+        await File.WriteAllTextAsync("file_id.json", json);
+
+        await _botClient.SendTextMessageAsync(chatId, $"✅ FileId сохранён: `{fileId}`", parseMode: ParseMode.Markdown);
+        return; // Завершаем обработку, если это был документ
     }
 }

@@ -43,18 +43,29 @@ public class ChatStateController
         
         var chatId = message.Chat.Id;
         
+        Console.WriteLine($"Received message type: {message.Type}");
+        
         switch (data)
         {
             case GlobalData.START:
-                await _stateMachine.TransitTo<StartState>(chatId);
-                break;
-            
             case GlobalData.CHECK_SUBSCRIPTION:
                 await _stateMachine.TransitTo<StartState>(chatId);
                 break;
-            
+
             case GlobalData.DONE:
                 await _stateMachine.TransitTo<DoneState>(chatId);
+                break;
+            
+            case GlobalData.INFO:
+                await _stateMachine.TransitTo<InfoState>(chatId);
+                break;
+            
+            case GlobalData.SURFING:
+                await _stateMachine.TransitTo<SurfCampState>(chatId);
+                break;
+            
+            case GlobalData.GUIDE:
+                await _stateMachine.TransitTo<GuideState>(chatId);
                 break;
             
             default:

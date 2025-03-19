@@ -18,6 +18,9 @@ public class ChatStateMachine
         _states[typeof(WaitingForPhoneState)] = () => new WaitingForPhoneState(this, botClient, usersDataProvider);
         _states[typeof(UserDataSubmissionState)] = () => new UserDataSubmissionState(this, botClient, usersDataProvider, appSettings.ManagerChannelId);
         _states[typeof(DoneState)] = () => new DoneState(this, botClient);
+        _states[typeof(GuideState)] = () => new GuideState(this, botClient);
+        _states[typeof(InfoState)] = () => new InfoState(this, botClient);
+        _states[typeof(SurfCampState)] = () => new SurfCampState(this, botClient);
     }
     
     public ChatStateBase GetState(long chatId)

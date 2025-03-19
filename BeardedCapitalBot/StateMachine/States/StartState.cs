@@ -30,12 +30,12 @@ public class StartState : ChatStateBase
 
     private async Task SendGreeting(long chatId)
     {
-        var greetings = $"Приветственное сообщение";
+        var greetings = $"Какая-то инфа. Стартовое сообщение";
         
         var guideButton = InlineKeyboardButton.WithCallbackData("Гайд", GlobalData.GUIDE);
         var infoButton = InlineKeyboardButton.WithCallbackData("Информация", GlobalData.INFO);
         var surfingButton = InlineKeyboardButton.WithCallbackData("Серф Кэмп", GlobalData.SURFING);
-        var premiumButton = InlineKeyboardButton.WithCallbackData("Премиум канал", GlobalData.PREMIUM_CHANEL);
+        var premiumButton = InlineKeyboardButton.WithUrl("Премиум канал", GlobalData.PREMIUM_CHANEL);
         
         var keyboard = new InlineKeyboardMarkup(new[]
         {
