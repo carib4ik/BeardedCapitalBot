@@ -1,5 +1,5 @@
 {
-  "ManagerChannelId": "@1",
+  "ManagerChannelId": "@BeardedCapitalBot_errors",
   "SubscribeChannelId": "@BeardedCapitalBot_errors",
   "ErrorsLogChannelId": "@BeardedCapitalBot_errors",
   "ErrorsFilePath" : "ErrorsLog.txt"

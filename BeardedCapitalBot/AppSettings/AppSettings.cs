@@ -12,9 +12,20 @@ public class AppSettings
     
     public AppSettings()
     {
-        ManagerChannelId = Environment.GetEnvironmentVariable("MANAGER_CHANNEL_ID") ?? "@default";
-        SubscribeChannelId = Environment.GetEnvironmentVariable("SUBSCRIBE_CHANNEL_ID") ?? "@default";
-        ErrorsLogChannelId = Environment.GetEnvironmentVariable("ERRORS_LOG_CHANNEL_ID") ?? "@default";
+        ManagerChannelId = ParseChatId(Environment.GetEnvironmentVariable("MANAGER_CHANNEL_ID"));
+        SubscribeChannelId = ParseChatId(Environment.GetEnvironmentVariable("SUBSCRIBE_CHANNEL_ID"));
+        ErrorsLogChannelId = ParseChatId(Environment.GetEnvironmentVariable("ERRORS_LOG_CHANNEL_ID"));
         ErrorsFilePath = Environment.GetEnvironmentVariable("ERRORS_FILE_PATH") ?? "ErrorsLog.txt";
     }
+
+    private ChatId ParseChatId(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new ArgumentException("ChatId cannot be empty.");
+        }
+
+        return long.TryParse(value, out var chatId) ? new ChatId(chatId) : new ChatId(value);
+    }
+
 }
