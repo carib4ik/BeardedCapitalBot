@@ -3,6 +3,8 @@ namespace BeardedCapitalBot.AppSettings;
 public class Secrets
 {
     public string TelegramKey { get; init; }
+    public string FromEmail { get; init; }
+    public string FromEmailPassword { get; init; }
 
     // public Secrets()
     // {

@@ -6,12 +6,6 @@ namespace BeardedCapitalBot.Services;
 public class UsersDataProvider
 {
     private readonly ConcurrentDictionary<long, UserData> _userDatas = new();
-
-    public void SetUserName(long chatId, string name)
-    {
-        var userState = _userDatas.GetOrAdd(chatId, new UserData());
-        userState.Name = name;
-    }
     
     public void SetTelegramName(long chatId, string? telegramName)
     {
@@ -19,10 +13,11 @@ public class UsersDataProvider
         userState.TelegramName = telegramName;
     }
     
-    public void SetUserPhone(long chatId, string? phone)
+    public void SetUserEmail(long chatId, string? email)
     {
+        
         var userState = _userDatas.GetOrAdd(chatId, new UserData());
-        userState.Phone = phone;
+        userState.Email = email;
     }
     
     public UserData GetUserData(long chatId)

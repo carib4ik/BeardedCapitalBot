@@ -10,15 +10,14 @@ public class ChatStateMachine
     private readonly ConcurrentDictionary<long, ChatStateBase> _chatStates = new();
     private readonly Dictionary<Type, Func<ChatStateBase>> _states = new();
     
-    public ChatStateMachine(ITelegramBotClient botClient, AppSettings.AppSettings appSettings, UsersDataProvider usersDataProvider)
+    public ChatStateMachine(ITelegramBotClient botClient, AppSettings.AppSettings appSettings,
+        UsersDataProvider usersDataProvider, EmailService emailService)
     {
         _states[typeof(IdleState)] = () => new IdleState(this);
         _states[typeof(StartState)] = () => new StartState(this, botClient);
-        _states[typeof(WaitingForNameState)] = () => new WaitingForNameState(this, botClient, usersDataProvider);
-        _states[typeof(WaitingForPhoneState)] = () => new WaitingForPhoneState(this, botClient, usersDataProvider);
-        _states[typeof(UserDataSubmissionState)] = () => new UserDataSubmissionState(this, botClient, usersDataProvider, appSettings.ManagerChannelId);
+        _states[typeof(RequestEmailState)] = () => new RequestEmailState(this, botClient, usersDataProvider);
         _states[typeof(DoneState)] = () => new DoneState(this, botClient);
-        _states[typeof(GuideState)] = () => new GuideState(this, botClient);
+        _states[typeof(GuideSendToEmailState)] = () => new GuideSendToEmailState(this, botClient, usersDataProvider, emailService);
         _states[typeof(InfoState)] = () => new InfoState(this, botClient);
         _states[typeof(SurfCampState)] = () => new SurfCampState(this, botClient);
     }

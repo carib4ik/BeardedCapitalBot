@@ -65,7 +65,7 @@ public class ChatStateController
                 break;
             
             case GlobalData.GUIDE:
-                await _stateMachine.TransitTo<GuideState>(chatId);
+                await _stateMachine.TransitTo<RequestEmailState>(chatId);
                 break;
             
             default:

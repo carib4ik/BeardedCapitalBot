@@ -12,4 +12,5 @@ public static class GlobalData
     public const string INFO = "Полезная информация";
     public const string BACK = "Назад";
     public const long ADMIN_ID = 528184433;
+    public const string GUIDE_FILE_PATH = "Documents/Лучший гайд по крипте - BORODA CAPITAL.pdf";
 }

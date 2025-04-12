@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MailKit" Version="4.11.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Telegram.Bot" Version="19.0.0" />
     </ItemGroup>
@@ -16,6 +17,12 @@
         <None Update="AppSettings\*.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+  	<None Update="Documents\Лучший гайд по крипте - BORODA CAPITAL.pdf">
+    	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  	</None>
     </ItemGroup>
 
 
