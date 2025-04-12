@@ -40,7 +40,7 @@ public class RequestEmailState : ChatStateBase
         _usersDataProvider.SetTelegramName(chatId, message.From?.Username);
         _usersDataProvider.SetUserEmail(chatId, email);
 
-        await _stateMachine.TransitTo<GuideSendToEmailState>(chatId);
+        await _stateMachine.TransitTo<GuideToEmailState>(chatId);
     }
 
     public override async Task OnEnter(long chatId)

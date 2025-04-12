@@ -6,13 +6,13 @@ using File = System.IO.File;
 
 namespace BeardedCapitalBot.StateMachine.States;
 
-public class GuideSendToEmailState : ChatStateBase
+public class GuideToEmailState : ChatStateBase
 {
     private readonly ITelegramBotClient _botClient;
     private readonly UsersDataProvider _usersDataProvider;
     private readonly EmailService _emailService;
 
-    public GuideSendToEmailState(ChatStateMachine stateMachine, ITelegramBotClient botClient,
+    public GuideToEmailState(ChatStateMachine stateMachine, ITelegramBotClient botClient,
         UsersDataProvider usersDataProvider, EmailService emailService) : base(stateMachine)
     {
         _botClient = botClient;
@@ -28,19 +28,12 @@ public class GuideSendToEmailState : ChatStateBase
 
     public override async Task OnEnter(long chatId)
     {
-        // await _botClient.SendDocumentAsync(chatId, document: new InputFileId("BQACAgIAAxkBAANxZ9qz4WuSakrNw38rbAXpVzPMsb4AAspnAAK2L9FK-bzsZjeJeho2BA"), caption:"Держи гайд");
         await SendStoredFileAsync(chatId);
         await _stateMachine.TransitTo<IdleState>(chatId);
     }
 
     private async Task SendStoredFileAsync(long chatId)
     {
-        if (!File.Exists(GlobalData.GUIDE_FILE_PATH))
-        {
-            Console.WriteLine("⚠ Файл не найден");
-            return;
-        }
-        
         var userEmail = _usersDataProvider.GetUserData(chatId).Email;
 
         if (userEmail == null)
@@ -51,14 +44,12 @@ public class GuideSendToEmailState : ChatStateBase
         
         try
         {
-            await _emailService.SendFileToEmailAsync(
+            await _emailService.SendTextEmailAsync(
                 toEmail: userEmail,
-                subject: "Ваш гайд",
-                body: "Привет! Во вложении находится обещанный гайд",
-                filePath: GlobalData.GUIDE_FILE_PATH
+                subject: "Ваш гайд по крипте",
+                body: GlobalData.EMAIL_BODY
             );
             
-            Console.WriteLine("✅ Файл успешно отправлен на email");
             await _botClient.SendTextMessageAsync(chatId, $"Гайд успешно отправлен на ваш email {userEmail}");
         }
         catch (Exception ex)

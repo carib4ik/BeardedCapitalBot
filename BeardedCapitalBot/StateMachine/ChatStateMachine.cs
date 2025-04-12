@@ -17,7 +17,7 @@ public class ChatStateMachine
         _states[typeof(StartState)] = () => new StartState(this, botClient);
         _states[typeof(RequestEmailState)] = () => new RequestEmailState(this, botClient, usersDataProvider);
         _states[typeof(DoneState)] = () => new DoneState(this, botClient);
-        _states[typeof(GuideSendToEmailState)] = () => new GuideSendToEmailState(this, botClient, usersDataProvider, emailService);
+        _states[typeof(GuideToEmailState)] = () => new GuideToEmailState(this, botClient, usersDataProvider, emailService);
         _states[typeof(InfoState)] = () => new InfoState(this, botClient);
         _states[typeof(SurfCampState)] = () => new SurfCampState(this, botClient);
     }
