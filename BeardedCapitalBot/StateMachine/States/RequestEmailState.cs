@@ -8,13 +8,15 @@ namespace BeardedCapitalBot.StateMachine.States;
 public class RequestEmailState : ChatStateBase
 {
     private readonly UsersDataProvider _usersDataProvider;
+    private readonly NotionService _notionService;
     private readonly ITelegramBotClient _botClient;
     
     
     public RequestEmailState(ChatStateMachine stateMachine, ITelegramBotClient botClient, 
-        UsersDataProvider usersDataProvider) : base(stateMachine)
+        UsersDataProvider usersDataProvider, NotionService notionService) : base(stateMachine)
     {
         _usersDataProvider = usersDataProvider;
+        _notionService = notionService;
         _botClient = botClient;
     }
 
@@ -39,6 +41,8 @@ public class RequestEmailState : ChatStateBase
         
         _usersDataProvider.SetTelegramName(chatId, message.From?.Username);
         _usersDataProvider.SetUserEmail(chatId, email);
+        
+        await _notionService.AddUserAsync(_usersDataProvider.GetUserData(chatId));
 
         await _stateMachine.TransitTo<GuideToEmailState>(chatId);
     }

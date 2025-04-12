@@ -11,11 +11,11 @@ public class ChatStateMachine
     private readonly Dictionary<Type, Func<ChatStateBase>> _states = new();
     
     public ChatStateMachine(ITelegramBotClient botClient, AppSettings.AppSettings appSettings,
-        UsersDataProvider usersDataProvider, EmailService emailService)
+        UsersDataProvider usersDataProvider, EmailService emailService, NotionService notionService)
     {
         _states[typeof(IdleState)] = () => new IdleState(this);
         _states[typeof(StartState)] = () => new StartState(this, botClient);
-        _states[typeof(RequestEmailState)] = () => new RequestEmailState(this, botClient, usersDataProvider);
+        _states[typeof(RequestEmailState)] = () => new RequestEmailState(this, botClient, usersDataProvider, notionService);
         _states[typeof(DoneState)] = () => new DoneState(this, botClient);
         _states[typeof(GuideToEmailState)] = () => new GuideToEmailState(this, botClient, usersDataProvider, emailService);
         _states[typeof(InfoState)] = () => new InfoState(this, botClient);

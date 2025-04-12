@@ -5,6 +5,8 @@ public class Secrets
     public string TelegramKey { get; init; }
     public string FromEmail { get; init; }
     public string FromEmailPassword { get; init; }
+    public string NotionToken { get; init; }
+    public string NotionDbId { get; init; }
 
     // public Secrets()
     // {
