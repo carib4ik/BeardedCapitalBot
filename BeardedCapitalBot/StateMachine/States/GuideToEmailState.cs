@@ -18,7 +18,6 @@ public class GuideToEmailState : ChatStateBase
         _botClient = botClient;
         _usersDataProvider = usersDataProvider;
         _emailService = emailService;
-        Console.WriteLine("GuideState");
     }
 
     public override Task HandleMessage(Message message)
@@ -28,6 +27,8 @@ public class GuideToEmailState : ChatStateBase
 
     public override async Task OnEnter(long chatId)
     {
+        Console.WriteLine("GuideToEmailState");
+
         await SendStoredFileAsync(chatId);
         await _stateMachine.TransitTo<IdleState>(chatId);
     }

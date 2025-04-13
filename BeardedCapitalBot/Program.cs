@@ -27,8 +27,7 @@ public static class Program
         var usersDataProvider = new UsersDataProvider();
         var emailService = new EmailService(secrets.FromEmail, secrets.FromEmailPassword);
         var notionService = new NotionService(secrets.NotionToken, secrets.NotionDbId);
-        
-        var chatStateMachine = new ChatStateMachine(botClient, settings, usersDataProvider, emailService, notionService);
+        var chatStateMachine = new ChatStateMachine(botClient, usersDataProvider, emailService, notionService);
         var chatStateController = new ChatStateController(chatStateMachine);
         
         var telegramBot = new TelegramBotController(botClient, subscriptionService, chatStateController);

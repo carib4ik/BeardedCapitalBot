@@ -14,7 +14,6 @@ public class InfoState : ChatStateBase
     public InfoState(ChatStateMachine stateMachine, ITelegramBotClient botClient) : base(stateMachine)
     {
         _botClient = botClient;
-        Console.WriteLine("InfoState");
     }
 
     public override Task HandleMessage(Message message)
@@ -24,7 +23,9 @@ public class InfoState : ChatStateBase
 
     public override async Task OnEnter(long chatId)
     {
-        var guide = $"Какая-то информация";
+        Console.WriteLine("InfoState");
+        
+        var info = $"Какая-то информация";
         
         var backButton = InlineKeyboardButton.WithCallbackData("Назад", GlobalData.START);
         // var infoButton = InlineKeyboardButton.WithCallbackData("Информация", GlobalData.INFO);
@@ -33,7 +34,7 @@ public class InfoState : ChatStateBase
         
         var keyboard = new InlineKeyboardMarkup( new[] { backButton });
         
-        await _botClient.SafeSendTextMessageAsync(chatId, guide.EscapeMarkdownV2(), replyMarkup: keyboard, parseMode: ParseMode.MarkdownV2);
+        await _botClient.SafeSendTextMessageAsync(chatId, info.EscapeMarkdownV2(), replyMarkup: keyboard, parseMode: ParseMode.MarkdownV2);
         await _stateMachine.TransitTo<IdleState>(chatId);
     }
 }

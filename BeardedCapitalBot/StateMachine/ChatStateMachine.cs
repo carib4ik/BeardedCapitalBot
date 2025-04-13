@@ -10,13 +10,12 @@ public class ChatStateMachine
     private readonly ConcurrentDictionary<long, ChatStateBase> _chatStates = new();
     private readonly Dictionary<Type, Func<ChatStateBase>> _states = new();
     
-    public ChatStateMachine(ITelegramBotClient botClient, AppSettings.AppSettings appSettings,
+    public ChatStateMachine(ITelegramBotClient botClient,
         UsersDataProvider usersDataProvider, EmailService emailService, NotionService notionService)
     {
-        _states[typeof(IdleState)] = () => new IdleState(this);
+        _states[typeof(IdleState)] = () => new IdleState(this, usersDataProvider);
         _states[typeof(StartState)] = () => new StartState(this, botClient);
         _states[typeof(RequestEmailState)] = () => new RequestEmailState(this, botClient, usersDataProvider, notionService);
-        _states[typeof(DoneState)] = () => new DoneState(this, botClient);
         _states[typeof(GuideToEmailState)] = () => new GuideToEmailState(this, botClient, usersDataProvider, emailService);
         _states[typeof(InfoState)] = () => new InfoState(this, botClient);
         _states[typeof(SurfCampState)] = () => new SurfCampState(this, botClient);

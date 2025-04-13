@@ -31,12 +31,12 @@ public class RequestEmailState : ChatStateBase
             return;
         }
 
-        // if (IsEmailUsed(chatId, email))
-        // {
-        //     await _botClient.SendTextMessageAsync(chatId, "⚠ Этот email уже использовался для получения гайда.");
-        //     await _stateMachine.TransitTo<IdleState>(chatId);
-        //     return;
-        // }
+        if (await _notionService.CheckUserAsync(email))
+        {
+            await _botClient.SendTextMessageAsync(chatId, "⚠ Этот email уже использовался для получения гайда.");
+            await _stateMachine.TransitTo<IdleState>(chatId);
+            return;
+        }
 
         
         _usersDataProvider.SetTelegramName(chatId, message.From?.Username);
@@ -49,14 +49,9 @@ public class RequestEmailState : ChatStateBase
 
     public override async Task OnEnter(long chatId)
     {
-        await base.OnEnter(chatId);
-
+        Console.WriteLine("RequestEmailState");
+        
         var response = "Введите свой email, на который вы хотите получить гайд:";
         await _botClient.SafeSendTextMessageAsync(chatId, response);
-    }
-    
-    private bool IsEmailUsed(long chatId, string email)
-    {
-        return _usersDataProvider.GetUserData(chatId).Email == email;
     }
 }

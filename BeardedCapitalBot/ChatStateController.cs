@@ -51,10 +51,6 @@ public class ChatStateController
             case GlobalData.CHECK_SUBSCRIPTION:
                 await _stateMachine.TransitTo<StartState>(chatId);
                 break;
-
-            case GlobalData.DONE:
-                await _stateMachine.TransitTo<DoneState>(chatId);
-                break;
             
             case GlobalData.INFO:
                 await _stateMachine.TransitTo<InfoState>(chatId);

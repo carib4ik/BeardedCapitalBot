@@ -14,11 +14,12 @@ public class SurfCampState : ChatStateBase
     public SurfCampState(ChatStateMachine stateMachine, ITelegramBotClient botClient) : base(stateMachine)
     {
         _botClient = botClient;
-        Console.WriteLine("InfoState");
     }
 
     public override Task HandleMessage(Message message)
     {
+        Console.WriteLine("SurfCampState");
+
         return Task.CompletedTask;
     }
 

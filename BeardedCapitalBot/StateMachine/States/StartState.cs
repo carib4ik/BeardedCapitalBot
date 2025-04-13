@@ -14,7 +14,6 @@ public class StartState : ChatStateBase
     public StartState(ChatStateMachine stateMachine, ITelegramBotClient botClient) : base(stateMachine)
     {
         _botClient = botClient;
-        Console.WriteLine("StartState");
     }
 
     public override Task HandleMessage(Message message)
@@ -24,7 +23,8 @@ public class StartState : ChatStateBase
     
     public override async Task OnEnter(long chatId)
     {
-        await base.OnEnter(chatId);
+        Console.WriteLine("StartState");
+
         await SendGreeting(chatId);
     }
 

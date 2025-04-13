@@ -67,7 +67,42 @@ public class NotionService
         }
         else
         {
-            Console.WriteLine("✅ Пользователь успешно добавлен в Notion");
+            Console.WriteLine("✅ Пользователь успешно добавлен в Notion DB");
         }
     }
+
+    public async Task<bool> CheckUserAsync(string email)
+    {
+        var requestBody = new
+        {
+            filter = new
+            {
+                property = "Email",
+                rich_text = new
+                {
+                    equals = email
+                }
+            }
+        };
+
+        var json = JsonConvert.SerializeObject(requestBody);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        var url = $"https://api.notion.com/v1/databases/{_databaseId}/query";
+
+        var response = await _httpClient.PostAsync(url, content);
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine($"❌ Ошибка при проверке в Notion: {responseBody}");
+            return false;
+        }
+
+        dynamic result = JsonConvert.DeserializeObject(responseBody);
+        int resultsCount = result.results.Count;
+
+        return resultsCount > 0;
+    }
+
 }
