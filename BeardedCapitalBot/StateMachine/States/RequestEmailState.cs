@@ -1,7 +1,10 @@
+using BeardedCapitalBot.Data;
 using BeardedCapitalBot.Extensions;
 using BeardedCapitalBot.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace BeardedCapitalBot.StateMachine.States;
 
@@ -52,6 +55,11 @@ public class RequestEmailState : ChatStateBase
         Console.WriteLine("RequestEmailState");
         
         var response = "Введите свой email, на который вы хотите получить гайд:";
-        await _botClient.SafeSendTextMessageAsync(chatId, response);
+        
+        var backButton = InlineKeyboardButton.WithCallbackData("Назад", GlobalData.START);
+        
+        var keyboard = new InlineKeyboardMarkup(new[] { backButton });
+
+        await _botClient.SafeSendTextMessageAsync(chatId, response.EscapeMarkdownV2(), replyMarkup: keyboard, parseMode: ParseMode.MarkdownV2);
     }
 }

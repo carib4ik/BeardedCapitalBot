@@ -8,7 +8,7 @@ public static class GlobalData
     public const string SUBSCRIBE = "Подписаться";
     public const string GUIDE = "Получить гайд";
     public const string PREMIUM_CHANEL = "https://t.me/+fXiWnYTT44ozMTU0";
-    public const string SURFING = "Серфинг кэмп";
+    public const string MINI_APP = "Super Mini App";
     public const string INFO = "Полезная информация";
     public const string BACK = "Назад";
     public const long ADMIN_ID = 528184433; // это нужно если хочешь загружать файл в бота, чтобы он распознавал кто присылает файл

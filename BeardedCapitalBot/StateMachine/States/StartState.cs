@@ -32,14 +32,19 @@ public class StartState : ChatStateBase
     {
         var greetings = $"Какая-то инфа. Стартовое сообщение";
         
+        var webApp = new WebAppInfo
+        {
+            Url = "https://9e51-2404-8000-1006-2da8-fcbe-fe1b-fc8c-4621.ngrok-free.app"
+        };
+        
         var guideButton = InlineKeyboardButton.WithCallbackData("Гайд", GlobalData.GUIDE);
-        var infoButton = InlineKeyboardButton.WithCallbackData("Информация", GlobalData.INFO);
-        var surfingButton = InlineKeyboardButton.WithCallbackData("Серф Кэмп", GlobalData.SURFING);
+        var miniAppButton = InlineKeyboardButton.WithCallbackData("Информация", GlobalData.INFO);
+        var surfingButton = InlineKeyboardButton.WithWebApp("Super mini app", webApp);
         var premiumButton = InlineKeyboardButton.WithUrl("Премиум канал", GlobalData.PREMIUM_CHANEL);
         
         var keyboard = new InlineKeyboardMarkup(new[]
         {
-            new[] { guideButton, infoButton },
+            new[] { guideButton, miniAppButton },
             new[] { surfingButton, premiumButton }
         });
         

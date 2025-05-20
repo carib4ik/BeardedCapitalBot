@@ -56,10 +56,6 @@ public class ChatStateController
                 await _stateMachine.TransitTo<InfoState>(chatId);
                 break;
             
-            case GlobalData.SURFING:
-                await _stateMachine.TransitTo<SurfCampState>(chatId);
-                break;
-            
             case GlobalData.GUIDE:
                 await _stateMachine.TransitTo<RequestEmailState>(chatId);
                 break;
